@@ -1,0 +1,111 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-back-button slot="start"></ion-back-button>
+    <ion-title>
+      Ingreso de personas
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <form [formGroup]="formulario" *ngIf="formulario">
+      <ion-list>
+        <ion-item>
+          <ion-label position="floating">Documento</ion-label>
+          <ion-input type="number" formControlName="documento" (ionChange)="persona($event)"></ion-input>
+        </ion-item>
+
+        <ion-item color="danger" *ngIf="formulario.controls.documento.errors && formulario.controls.documento.touched">
+          <p>El documento no es válido</p>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Nombre</ion-label>
+          <ion-input type="text" formControlName="nombre"></ion-input>
+        </ion-item>
+
+        <ion-item color="danger" *ngIf="formulario.controls.nombre.errors && formulario.controls.nombre.touched">
+          <p>El nombre no es válido</p>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Sexo</ion-label>
+          <ion-select interface="popover" formControlName="sexo">
+            <ion-select-option>Femenino</ion-select-option>
+            <ion-select-option>Masculino</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item color="danger" *ngIf="formulario.controls.sexo.errors && formulario.controls.sexo.touched">
+          <p>El sexo no es válido</p>
+        </ion-item>
+
+        <ion-item (click)="seleccionarFecha()">
+          <ion-label position="floating">Fecha de nacimiento</ion-label>
+          <ion-datetime readOnly="true" formControlName="fecha_nacimiento">
+          </ion-datetime>
+          <ion-icon name="calendar-outline" slot="end"></ion-icon>
+        </ion-item>
+
+        <ion-item color="danger"
+          *ngIf="formulario.controls.fecha_nacimiento.errors && formulario.controls.fecha_nacimiento.touched">
+          <p>La fecha de nacimiento no es válido</p>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Rh</ion-label>
+          <ion-select interface="popover" formControlName="rh">
+            <ion-select-option>A+</ion-select-option>
+            <ion-select-option>A-</ion-select-option>
+            <ion-select-option>B+</ion-select-option>
+            <ion-select-option>B-</ion-select-option>
+            <ion-select-option>O+</ion-select-option>
+            <ion-select-option>O-</ion-select-option>
+            <ion-select-option>AB+</ion-select-option>
+            <ion-select-option>AB-</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item color="danger" *ngIf="formulario.controls.rh.errors && formulario.controls.rh.touched">
+          <p>El rh no es válido</p>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Teléfono</ion-label>
+          <ion-input type="phone" formControlName="telefono"></ion-input>
+        </ion-item>
+
+        <ion-item color="danger" *ngIf="formulario.controls.telefono.errors && formulario.controls.telefono.touched">
+          <p>El teléfono no es válido</p>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Dirección</ion-label>
+          <ion-input type="text" formControlName="direccion"></ion-input>
+        </ion-item>
+
+        <ion-item color="danger" *ngIf="formulario.controls.direccion.errors && formulario.controls.direccion.touched">
+          <p>El direccion no es válido</p>
+        </ion-item>
+      </ion-list>
+    </form>
+  </ion-card>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="codigoBarras()">
+    <ion-fab-button color="secondary">
+      <ion-icon name="barcode-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-button color="success" (click)="guardar()" [disabled]="formulario.invalid">
+        <ion-icon name="save-outline" slot="start"></ion-icon>
+        Guardar
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

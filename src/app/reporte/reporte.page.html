@@ -1,0 +1,110 @@
+<ion-header [ngSwitch]="filtro && filtro.filtro">
+  <ion-toolbar *ngSwitchCase="'Diario'">
+    <ion-button color="tertiary" expand="full" (click)="seleccionarFecha()">
+      <ion-icon name="calendar-outline" slot="start"></ion-icon>
+      {{filtro.data | date: 'fullDate' }}
+    </ion-button>
+  </ion-toolbar>
+
+  <ion-toolbar *ngSwitchCase="'Mensual'">
+    <ion-row class="ion-justify-content-center">
+      <ion-buttons>
+        <ion-button color="primary" (click)="seleccionarMes(-1)" *ngIf="atras">
+          <ion-icon name="arrow-dropleft"></ion-icon>
+        </ion-button>
+        <ion-button>
+          <ion-select cancelText="Cancelar" color="primary" interface="action-sheet" [(ngModel)]="filtro.data" #C
+            [compareWith]="compareWithFn" (ionChange)="seleccionarMes(C.value)">
+            <ion-select-option *ngFor="let item of filtro.items" [value]="item.fecha">
+              {{item.titulo}}
+            </ion-select-option>
+          </ion-select>
+        </ion-button>
+        <ion-button color="primary" (click)="seleccionarMes(1)" *ngIf="adelante">
+          <ion-icon name="arrow-dropright"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-row>
+  </ion-toolbar>
+
+  <ion-toolbar *ngSwitchCase="'Semanal'">
+    <ion-row class="ion-justify-content-center">
+      <ion-buttons>
+        <ion-button color="primary" icon-left (click)="seleccionarSemana(-1)" *ngIf="atras">
+          <ion-icon name="arrow-dropleft"></ion-icon>
+        </ion-button>
+        <ion-button color="primary">
+          {{filtro.titulo}}
+        </ion-button>
+        <ion-button color="primary" (click)="seleccionarSemana(1)" *ngIf="adelante">
+          <ion-icon name="arrow-dropright"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-row>
+  </ion-toolbar>
+
+  <ion-toolbar *ngSwitchCase="'Anual'">
+    <ion-row class="ion-justify-content-center">
+      <ion-buttons>
+        <ion-button color="primary" (click)="seleccionarAnno(-1)" *ngIf="atras">
+          <ion-icon name="arrow-dropleft"></ion-icon>
+        </ion-button>
+        <ion-label color="primary">{{filtro.data | date: 'yyyy'}}</ion-label>
+        <ion-button color="primary" (click)="seleccionarAnno(1)" *ngIf="adelante">
+          <ion-icon name="arrow-dropright"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-row>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-text class="center" color="medium">
+            <b>Total servicios</b>
+            <h2 style="color: #32db64">{{ total | currency:'COP':'symbol':'1.0-0' }}</h2>
+          </ion-text>
+        </ion-item>
+      </ion-col>
+
+      <ion-col>
+        <ion-item>
+          <ion-text class="center" color="medium">
+            <b>Total reservas</b>
+            <h2 style="color: #32db64">{{cantidad}}</h2>
+          </ion-text>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-item style="margin: 5px;" *ngFor="let totalesUsuario of totalesUsuarios" (click)="ver(totalesUsuario.usuario.id)">
+      <ion-avatar slot="start" *ngIf="totalesUsuario.usuario.imagen">
+        <img [src]="totalesUsuario.usuario.imagen">
+      </ion-avatar>
+      
+      <ion-text>
+        <h3 style="font-size: 18px; font-weight: bold; margin: 5px 0 5px 0;">{{totalesUsuario.usuario.nombre}}</h3>
+        <ion-note>Servicios: {{totalesUsuario.citas}}</ion-note>
+      </ion-text>
+
+      <ion-text slot="end">
+        <p class="ion-no-margin" style="color: #f53d3d; font-weight: bold;">
+          {{totalesUsuario.total | currency:'COP':'symbol':'1.0-0'}}
+        </p>
+      </ion-text>
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons>
+      <ion-button color="secondary" (click)="menu()">
+        Reporte {{filtro.filtro}}
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

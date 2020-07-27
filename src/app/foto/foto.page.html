@@ -1,0 +1,76 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Foto</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cerrar()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-list-header *ngIf="!imagen">
+      Toma una fotografía o selecciona una imagen desde el dispositivo.
+    </ion-list-header>
+
+    <ion-item *ngIf="imagen">
+      <img [src]="imagen" style="max-width:300px;" />
+    </ion-item>
+
+    <ion-item lines="none" *ngIf="!mobile">
+      <ion-grid>
+        <ion-row>
+          <ion-col size-xs="12" size-sm="12" size-md="7">
+            <ion-input type="file" accept="image/*" (change)="seleccionarImagen($event)"></ion-input>
+          </ion-col>
+
+          <ion-col size-xs="12" size-sm="12" size-md="5">
+            <ion-button color="success" expand="block" (click)="sacarFoto()">
+              <ion-icon name="camera" slot="start"></ion-icon>
+              Foto
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+
+  <ion-fab vertical="bottom" horizontal="center" *ngIf="mobile">
+    <ion-fab-button size="small">
+      <ion-icon name="image"></ion-icon>
+    </ion-fab-button>
+
+    <ion-fab-list side="start">
+      <ion-fab-button (click)="sacarFoto()">
+        <ion-icon name="camera"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+
+    <ion-fab-list side="end">
+      <ion-fab-button>
+        <ion-icon name="cloud-upload" (click)="cargarImagen()"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+
+  <ion-item *ngIf="webcam">
+    <div><video #video id="video" width="1000" height="1000" autoplay></video></div>
+    <canvas #canvas id="canvas" width="1000" height="1000"></canvas>
+    <ion-fab vertical="bottom" horizontal="center">
+      <ion-fab-button size="small" (click)="capture()">
+        <ion-icon name="camera"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </ion-item>
+
+  <ion-footer>
+    <ion-item lines="none">
+      <ion-button slot="end" fill="clear" (click)="continuar()" [disabled]="!imagen">
+        <ion-icon name="arrow-forward" slot="end"></ion-icon>
+        Continuar
+      </ion-button>
+    </ion-item>
+  </ion-footer>
+</ion-content>

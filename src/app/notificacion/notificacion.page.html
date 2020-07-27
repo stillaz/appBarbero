@@ -1,0 +1,23 @@
+<ion-content>
+  <ion-item *ngIf="notificaciones && !notificaciones[0]">
+    Sin notificaciones
+  </ion-item>
+
+  <ion-list *ngIf="notificaciones && notificaciones[0]">
+    <ion-item *ngFor="let notificacion of notificaciones">
+      <ion-text [color]="notificacion.leido ? 'medium' : 'primary'" style="width: 100%;" (click)="ver(notificacion)">
+        <h3 no-margin style="font-size: 18px;">{{notificacion.mensaje.body}}</h3>
+        <ion-note>{{notificacion.mensaje.title}}</ion-note>
+      </ion-text>
+
+      <ion-buttons slot="end" (click)="eliminar(notificacion.id)">
+        <ion-button [color]="notificacion.leido ? 'medium' : 'primary'" (click)="ver(notificacion)">
+          <ion-icon name="eye"></ion-icon>
+        </ion-button>
+        <ion-button color="danger">
+          <ion-icon name="trash"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+</ion-content>

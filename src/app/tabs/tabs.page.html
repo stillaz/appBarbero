@@ -1,0 +1,39 @@
+<ion-toolbar>
+  <ion-title color="primary">DIS Barber</ion-title>
+  <ion-buttons slot="end">
+    <ion-button (click)="notificaciones($event)">
+      <ion-icon name="notifications"></ion-icon>
+    </ion-button>
+    <ion-menu-button></ion-menu-button>
+  </ion-buttons>
+</ion-toolbar>
+
+<ion-content>
+  <app-menu></app-menu>
+
+  <ion-tabs>
+    <ion-tab-bar slot="top">
+      <ion-tab-button tab="agenda" #agenda>
+        <ion-icon [name]="agenda.selected ? 'bookmarks' : 'bookmarks-outline'"></ion-icon>
+        <ion-text>Agenda</ion-text>
+      </ion-tab-button>
+
+      <ion-tab-button tab="pendiente" #pendiente>
+        <ion-icon [name]="pendiente.selected ? 'today' : 'today-outline'"></ion-icon>
+        <ion-badge color="danger" *ngIf="pendientes > 0">{{pendientes}}</ion-badge>
+        <ion-text>Citas</ion-text>
+      </ion-tab-button>
+
+      <ion-tab-button tab="reporte" #reporte>
+        <ion-icon [name]="reporte.selected ? 'reader' : 'reader-outline'"></ion-icon>
+        <ion-text>Reportes</ion-text>
+      </ion-tab-button>
+
+      <ion-tab-button tab="personas" #tabPersonas>
+        <ion-icon [name]="tabPersonas.selected ? 'people' : 'people-outline'"></ion-icon>
+        <ion-text>Clientes</ion-text>
+        <ion-badge *ngIf="!tabPersonas.selected && personas && personas[0]">{{personas}}</ion-badge>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
+</ion-content>

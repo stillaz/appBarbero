@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Selecciona un servicio</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-grid class="ion-no-padding">
+    <ion-row>
+      <ion-col *ngFor="let servicio of servicios">
+        <ion-card color="primary" (click)="reservar(servicio)">
+          <ion-card-header>{{servicio.nombre}}</ion-card-header>
+          <ion-card-subtitle *ngIf="servicio.imagen">
+            <img [src]="servicio.imagen" />
+          </ion-card-subtitle>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

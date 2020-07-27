@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">DIS Barber</string>
+    <string name="title_activity_main">DIS Barber</string>
+    <string name="package_name">com.dis.barber</string>
+    <string name="custom_url_scheme">com.dis.barber</string>
+</resources>

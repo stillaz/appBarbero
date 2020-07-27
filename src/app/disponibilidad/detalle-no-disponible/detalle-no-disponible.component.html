@@ -1,0 +1,90 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>No disponible</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="cancelar()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="todo" *ngIf="todo">
+    <ion-list>
+      <ion-item>
+        <ion-label>Fecha desde:</ion-label>
+        <ion-datetime displayFormat="DDD DD, MMM YYYY" formControlName="fechaDesde" doneText="OK" cancelText="Cancelar"
+          [min]="fechaMinima" [max]="fechaMaxima"></ion-datetime>
+      </ion-item>
+
+      <ion-item color="danger" *ngIf="todo.controls.fechaDesde.errors && todo.controls.fechaDesde.touched">
+        <p>La fecha desde no es válido</p>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Fecha hasta:</ion-label>
+        <ion-datetime displayFormat="DDD DD, MMM YYYY" formControlName="fechaHasta" doneText="OK" cancelText="Cancelar"
+          [min]="fechaMinima" [max]="fechaMaxima" [disabled]="todo.value.todoDia || todo.value.indefinido">
+        </ion-datetime>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Indefinido</ion-label>
+        <ion-checkbox formControlName="indefinido" (ionChange)="validarIndefinido()"></ion-checkbox>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Todo el día</ion-label>
+        <ion-checkbox formControlName="todoDia" (ionChange)="validarTodoDia()"></ion-checkbox>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Hora desde:</ion-label>
+        <ion-datetime displayFormat="HH" pickerFormat="HH" formControlName="horaDesde" doneText="OK"
+          cancelText="Cancelar" [disabled]="todo.value.todoDia"></ion-datetime>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Hora hasta:</ion-label>
+        <ion-datetime displayFormat="HH" pickerFormat="HH" formControlName="horaHasta" doneText="OK"
+          cancelText="Cancelar" [disabled]="todo.value.todoDia"></ion-datetime>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Repetir:</ion-label>
+        <ion-select cancelText="Cancelar" formControlName="repetir" multiple [compareWith]="compareFn">
+          <ion-select-option *ngFor="let opcion of repetir" [value]="opcion">
+            {{opcion.dia}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Descripción:</ion-label>
+        <ion-textarea type="text" formControlName="descripcion" maxlength="500"></ion-textarea>
+      </ion-item>
+
+      <ion-item color="danger" *ngIf="todo.controls.fechaDesde.errors && todo.controls.fechaDesde.touched">
+        <p>La descripción no es válido</p>
+      </ion-item>
+    </ion-list>
+  </form>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar *ngIf="todo">
+    <ion-buttons slot="end">
+      <ion-button color="danger" (click)="cancelar()">
+        Cancelar
+        <ion-icon name="close" slot="end"></ion-icon>
+      </ion-button>
+
+      <ion-button color="secondary" [disabled]="todo.invalid" (click)="guardar()">
+        Guardar
+        <ion-icon name="checkmark" slot="end"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

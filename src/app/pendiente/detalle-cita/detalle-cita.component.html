@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Detalle de la cita</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="cerrar()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-content>
+      <ion-text *ngFor="let servicio of cita.servicio">
+        <p *ngIf="!servicio.adicionales || !servicio.adicionales[0].activo">{{servicio.nombre}}</p>
+        <p *ngIf="servicio.adicionales && servicio.adicionales[0].activo">{{servicio.nombre}} +
+          {{servicio.adicionales | joins}}</p>
+      </ion-text>
+
+
+      <ion-text>
+        <p>Fecha: {{cita.fechaInicio.toDate() | date: 'fullDate'}}</p>
+        <p>Hora: {{cita.fechaInicio.toDate() | date: 'shortTime'}}</p>
+      </ion-text>
+
+      <ion-text>
+        <p>Cliente: {{cita.cliente.nombre}}</p>
+        <p><a>
+            <ion-icon name="mail"></ion-icon> Correo: {{cita.cliente.correoelectronico}}
+          </a></p>
+        <p><a>
+            <ion-icon name="call"></ion-icon> Teléfono: {{cita.cliente.telefono}}
+          </a></p>
+      </ion-text>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

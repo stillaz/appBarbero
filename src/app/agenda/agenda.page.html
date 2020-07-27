@@ -1,0 +1,136 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button color="tertiary" expand="full" (click)="seleccionarFecha()">
+      <ion-icon name="calendar-outline" slot="start"></ion-icon>
+      {{fecha | date: 'fullDate' }}
+    </ion-button>
+  </ion-toolbar>
+
+  <ion-toolbar color="primary">
+    <ion-segment scrollable [(ngModel)]="terms" (ionChange)="updateHorario()">
+      <ion-segment-button value="">
+        Todo
+      </ion-segment-button>
+
+      <ion-segment-button value="disponible">
+        Disponible
+      </ion-segment-button>
+
+      <ion-segment-button value="reservado">
+        Reservado
+      </ion-segment-button>
+
+      <ion-segment-button value="No disponible">
+        No disponible
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding-end ion-padding-start">
+  <ion-list *ngIf="!horarios">
+    <ion-item-group>
+
+      <ion-item-divider sticky color="light">
+        <ion-label>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-label>
+      </ion-item-divider>
+
+      <ion-item>
+        <ion-avatar slot="start">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-avatar>
+        <ion-text>
+          <ion-skeleton-text animated></ion-skeleton-text>
+
+          <ion-note>
+            <ion-skeleton-text animated></ion-skeleton-text>
+          </ion-note>
+
+          <ion-note>
+            <ion-skeleton-text animated></ion-skeleton-text>
+          </ion-note>
+        </ion-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-avatar slot="start">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-avatar>
+        <ion-text>
+          <ion-skeleton-text animated></ion-skeleton-text>
+
+          <ion-note>
+            <ion-skeleton-text animated></ion-skeleton-text>
+          </ion-note>
+
+          <ion-note>
+            <ion-skeleton-text animated></ion-skeleton-text>
+          </ion-note>
+        </ion-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-avatar slot="start">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-avatar>
+        <ion-text>
+          <ion-skeleton-text animated></ion-skeleton-text>
+
+          <ion-note>
+            <ion-skeleton-text animated></ion-skeleton-text>
+          </ion-note>
+
+          <ion-note>
+            <ion-skeleton-text animated></ion-skeleton-text>
+          </ion-note>
+        </ion-text>
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
+
+  <ion-list *ngIf="horarios">
+    <ion-item-group *ngFor="let horario of horarios | disponibilidadFilter: terms">
+
+      <ion-item-divider sticky color="light">
+        <ion-label>
+          {{horario.grupo}}
+        </ion-label>
+      </ion-item-divider>
+
+      <ion-item-sliding *ngFor="let disponibilidad of horario.disponibilidad" #slidingItem
+        [attr.track]="disponibilidad.estado | lowercase" [id]="disponibilidad.evento">
+
+        <ion-item>
+          <ion-avatar slot="start" *ngIf="disponibilidad.cliente && disponibilidad.cliente.foto">
+            <img [src]="disponibilidad.cliente.foto">
+          </ion-avatar>
+
+          <ion-text>
+            <p style="margin: 2px;">{{disponibilidad.fechaInicio | date: 'hh:mm a'}} -
+              {{disponibilidad.fechaFin | date: 'hh:mm a'}}
+            </p>
+
+            <ion-note *ngIf="disponibilidad.cliente">{{disponibilidad.cliente.nombre}}</ion-note>
+
+            <ion-note *ngIf="!disponibilidad.cliente.nombre">{{disponibilidad.estado}}</ion-note>
+          </ion-text>
+
+          <ion-button slot="end"
+            *ngIf="disponibilidad.estado === estadosReserva.DISPONIBLE && disponibilidad.fechaFin >= fecha"
+            (click)="reservar(disponibilidad)">
+            Reservar
+          </ion-button>
+        </ion-item>
+
+        <ion-item-options side="end">
+          <ion-item-option color="danger" (click)="cancelar(slidingItem, disponibilidad)"
+            *ngIf="disponibilidad.estado === estadosReserva.RESERVADO || disponibilidad.estado === estadosReserva.EJECUTANDO">
+            Cancelar cita
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-item-group>
+  </ion-list>
+</ion-content>

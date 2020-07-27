@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-segment value="ahora" (ionChange)="updatePersonas()" [(ngModel)]="opcion">
+      <ion-segment-button value="ahora">
+        En espera
+      </ion-segment-button>
+
+      <ion-segment-button value="ingreso">
+        Ingresos
+      </ion-segment-button>
+
+      <ion-segment-button value="">
+        Todos
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+
+  <ion-toolbar *ngIf="opcion === 'ingreso'">
+    <ion-button color="tertiary" expand="full" (click)="seleccionarFecha()">
+      <ion-icon name="calendar-outline" slot="start"></ion-icon>
+      {{fecha | date: 'fullDate' }}
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let persona of personas">
+      <ion-text color="secondary">
+        <p style="margin: 2px;">{{persona.nombre}}</p>
+
+        <ion-note>
+          Última visita: {{persona.actualizacion.toDate()|fecha}}.
+        </ion-note>
+
+        <ion-note *ngIf="persona.servicios && !opcion == 'ingreso'">
+          Servicios: {{persona.servicios}}
+        </ion-note>
+      </ion-text>
+
+      <ion-button slot="end" (click)="servicio(persona)" *ngIf="opcion === 'ahora'">
+        Servicio
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="registro()">
+    <ion-fab-button color="secondary">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button *ngIf="personas">
+        Personas registradas: {{personas.length}}
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

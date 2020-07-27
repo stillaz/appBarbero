@@ -1,0 +1,43 @@
+<ion-menu menuId="opciones" contentId="opciones" side="start" *ngIf="usuario">
+  <ion-header>
+    <ion-toolbar>
+      <ion-item color="light" lines="none">
+        <ion-avatar *ngIf="usuario.imagen" slot="start">
+          <img [src]="usuario.imagen">
+        </ion-avatar>
+
+        <ion-text>
+          <ion-title>
+            {{usuario.nombre}}
+          </ion-title>
+
+          <ion-note>
+            {{usuario.perfiles | joins}}
+          </ion-note>
+        </ion-text>
+      </ion-item>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-menu-toggle>
+      <ion-list class="ion-no-padding">
+        <ion-item button [routerLink]="[page.path]" *ngFor="let page of pages">
+          <ion-icon [name]="page.icon" slot="start"></ion-icon>
+          {{page.title}}
+        </ion-item>
+      </ion-list>
+    </ion-menu-toggle>
+  </ion-content>
+
+  <ion-footer>
+    <ion-toolbar>
+      <ion-button class="ion-no-margin" color="danger" expand="full" fill="outline" (click)="salir()">
+        <ion-icon name="exit" slot="start"></ion-icon>
+        Cerrar sesión
+      </ion-button>
+    </ion-toolbar>
+  </ion-footer>
+</ion-menu>
+
+<ion-router-outlet id="opciones"></ion-router-outlet>

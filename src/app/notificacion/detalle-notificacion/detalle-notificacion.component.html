@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Detalles del mensaje</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="cerrar()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngIf="notificacion">
+    <ion-card-header>
+      <ion-card-title>
+        {{notificacion.titulo}}
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      {{notificacion.mensaje}}
+    </ion-card-content>
+  </ion-card>
+</ion-content>

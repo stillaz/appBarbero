@@ -1,0 +1,114 @@
+<ion-header *ngIf="usuario">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{usuario.nombre}}</ion-title>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="modo" (ionChange)="seleccionarMes(filtro.data)">
+      <ion-segment-button value="reservas">
+        Servicios
+      </ion-segment-button>
+
+      <ion-segment-button value="cancelados">
+        Cancelaciones
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-row class="ion-justify-content-center">
+      <ion-buttons>
+        <ion-button color="primary" (click)="irA(-1)" *ngIf="atras">
+          <ion-icon name="arrow-dropleft"></ion-icon>
+        </ion-button>
+        <ion-select cancelText="Cancelar" color="primary" interface="action-sheet" #C [(ngModel)]="filtro.data"
+          [compareWith]="compareWithFn" (ionChange)="seleccionarMes(C.value)">
+          <ion-select-option *ngFor="let item of filtro.items" [value]="item.fecha">
+            {{item.titulo}}
+          </ion-select-option>
+        </ion-select>
+        <ion-button color="primary" (click)="irA(1)" *ngIf="adelante">
+          <ion-icon name="arrow-dropright"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-row>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list [ngSwitch]="modo">
+    <ion-row *ngSwitchCase="'reservas'">
+      <ion-col>
+        <ion-item>
+          <ion-text style="text-align: center; width: 100%;">
+            Total servicios
+            <h2 style="color: #32db64">{{ total | currency:'COP':'symbol':'1.0-0' }}</h2>
+          </ion-text>
+        </ion-item>
+      </ion-col>
+
+      <ion-col>
+        <ion-item style="text-align: center">
+          <ion-text style="text-align: center; width: 100%;">
+            Reservas
+            <h2 style="color: #32db64">{{cantidad}}</h2>
+          </ion-text>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngSwitchCase="'cancelados'">
+      <ion-col>
+        <ion-item style="text-align: center">
+          <ion-text style="text-align: center; width: 100%;">
+            Cancelaciones
+            <h2 style="color: #f53d3d">{{cantidad}}</h2>
+          </ion-text>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-item-group *ngFor="let disponibilidad of disponibilidades">
+      <ion-item-divider color="light" sticky>
+        <ion-label>
+          {{disponibilidad.grupo}}
+        </ion-label>
+      </ion-item-divider>
+
+      <ion-item *ngFor="let horario of disponibilidad.disponibilidades">
+        <ion-avatar item-start *ngIf="horario.servicio.imagen">
+          <img [src]="horario.servicio.imagen">
+        </ion-avatar>
+
+        <ion-row class="ion-no-padding" style="width: 100%;">
+          <ion-col size="6" style="text-align: left">
+            <ion-text>
+              <h2 class="ion-no-margin">{{horario.cliente.nombre}}</h2>
+            </ion-text>
+          </ion-col>
+
+          <ion-col size="6" style="text-align: right">
+            <h2 class="ion-no-margin">
+              {{horario.fechaInicio.toDate() | date: 'hh:mm a'}} - {{ horario.fechaFin.toDate() | date: 'hh:mm a'}}
+            </h2>
+          </ion-col>
+
+          <ion-col size="6" style="text-align: left" *ngIf="modo == 'reservas'">
+            <p class="ion-no-margin">{{horario.servicio[0].nombre}}</p>
+          </ion-col>
+
+          <ion-col size="6" style="text-align: right; color: #f53d3d" *ngIf="modo == 'reservas'">
+            <p class="ion-no-margin"><b>{{horario.servicio[0].valor | currency:'COP':'symbol':'1.0-0'}}</b></p>
+          </ion-col>
+
+          <ion-col size="6" style="text-align: left" *ngIf="modo == 'cancelados'">
+            <p class="ion-no-margin"><b>{{horario.fechaActualizacion.toDate() | date: 'medium'}}</b></p>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
+</ion-content>

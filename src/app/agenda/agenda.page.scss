@@ -1,0 +1,25 @@
+$categories: (
+  disponible: #3bc7c4,
+  reservado: #fd8b2d,
+  ejecutando: #fe4c52,
+  finalizado: #69bb7b,
+  no-disponible: #222
+);
+
+@function auxiliary-categories() {
+  @return map-remove($categories);
+}
+
+@each $track, $value in auxiliary-categories() {
+  ion-item-sliding[track="#{$track}"] ion-item {
+    border-left: 2px solid $value;
+  }
+
+  ion-item-sliding[track="#{$track}"] ion-text {
+    color: $value;
+  }
+}
+
+ion-segment {
+  --background: #989aa2;
+}

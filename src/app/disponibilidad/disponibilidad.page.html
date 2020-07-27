@@ -1,0 +1,107 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-back-button slot="start"></ion-back-button>
+    <ion-title>Disponibilidad</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="todo" *ngIf="todo">
+    <ion-list>
+      <ion-item>
+        <ion-label color="medium">Hora inicio disponibilidad:</ion-label>
+        <ion-input type="number" formControlName="horaInicio"></ion-input>
+      </ion-item>
+
+      <ion-item color="danger" *ngIf="todo.controls.horaInicio.errors && todo.controls.horaInicio.touched">
+        <p>La hora inicio de disponibilidad no es válida</p>
+      </ion-item>
+
+      <ion-item>
+        <ion-label color="medium">Hora fin disponibilidad:</ion-label>
+        <ion-input type="number" formControlName="horaFin"></ion-input>
+      </ion-item>
+
+      <div *ngIf="todo.controls.horaFin.errors && todo.controls.horaFin.touched">
+        <ion-item color="danger"
+          *ngIf="todo.controls.horaFin.errors && !todo.controls.horaFin.errors.validarFechaFinMayor">
+          <p>La hora fin de disponibilidad no es válida</p>
+        </ion-item>
+
+        <ion-item color="danger" *ngIf="todo.controls.horaFin.errors.validarFechaFinMayor">
+          <p>La hora de disponibilidad fin debe ser mayor que la hora disponibilidad inicio</p>
+        </ion-item>
+      </div>
+
+      <ion-item>
+        <ion-label color="medium">Tiempo disponibilidad (minutos):</ion-label>
+        <ion-input type="number" formControlName="tiempoDisponibilidad"></ion-input>
+      </ion-item>
+
+      <ion-item color="danger"
+        *ngIf="todo.controls.tiempoDisponibilidad.errors && todo.controls.tiempoDisponibilidad.touched">
+        <p>El tiempo de disponibilidad no es válida</p>
+      </ion-item>
+
+      <ion-item>
+        <ion-label color="medium">Tiempo de alerta (minutos):</ion-label>
+        <ion-input type="number" formControlName="tiempoAlerta"></ion-input>
+      </ion-item>
+
+      <ion-item color="danger" *ngIf="todo.controls.tiempoAlerta.errors && todo.controls.tiempoAlerta.touched">
+        <p>El tiempo de alerta no es válida</p>
+      </ion-item>
+
+      <ion-list>
+        <ion-list-header class="ion-no-padding">
+          <ion-item color="medium" style="width: 100%;">
+            <ion-text>
+              <p>Horario no disponible</p>
+            </ion-text>
+
+            <ion-buttons slot="end">
+              <ion-button color="dark" (click)="verNoDisponible()">
+                <ion-icon name="add-circle-outline" size="large"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+          </ion-item>
+        </ion-list-header>
+
+        <ion-list>
+          <ion-item *ngFor="let item of noDisponibles">
+            <ion-text *ngIf="item.mensaje">
+              <p>{{item.mensaje}}</p>
+              <p>{{item.descripcion}}</p>
+            </ion-text>
+
+            <ion-buttons slot="end">
+              <ion-button color="primary" (click)="verNoDisponible(item.id)">
+                <ion-icon name="create"></ion-icon>
+              </ion-button>
+
+              <ion-button color="danger" (click)="eliminar(item.id)">
+                <ion-icon name="trash"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+          </ion-item>
+        </ion-list>
+      </ion-list>
+    </ion-list>
+  </form>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar *ngIf="todo">
+    <ion-buttons slot="end">
+      <ion-button color="danger" (click)="cancelar()">
+        <ion-icon name="close" slot="end"></ion-icon>
+        Cancelar
+      </ion-button>
+
+      <ion-button color="success" [disabled]="todo.invalid" (click)="guardar()">
+        <ion-icon name="checkmark" slot="end"></ion-icon>
+        Guardar
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

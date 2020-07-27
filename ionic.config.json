@@ -1,8 +1,7 @@
 {
-  "name": "appBarbero",
-  "app_id": "",
-  "type": "ionic-angular",
+  "name": "app_barberia",
   "integrations": {
-    "cordova": {}
-  }
+    "capacitor": {}
+  },
+  "type": "angular"
 }

@@ -1,0 +1,83 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-back-button slot="start"></ion-back-button>
+    <ion-title>Mi perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card>
+    <ion-card-content>
+      <form [formGroup]="todo" *ngIf="todo">
+        <ion-item>
+          <ion-label floating>Nombre:</ion-label>
+          <ion-input formControlName="nombre" maxlength="10" disabled="true"></ion-input>
+        </ion-item>
+
+        <ion-item color="danger" *ngIf="todo.controls.telefono.errors && todo.controls.telefono.touched">
+          <p>El teléfono no es válido</p>
+        </ion-item>
+
+        <ion-item>
+          <ion-label floating>Teléfono:</ion-label>
+          <ion-input type="tel" formControlName="telefono" maxlength="10"></ion-input>
+        </ion-item>
+
+        <ion-item color="danger" *ngIf="todo.controls.telefono.errors && todo.controls.telefono.touched">
+          <p>El teléfono no es válido</p>
+        </ion-item>
+
+        <ion-item>
+          <ion-label floating>Email:</ion-label>
+          <ion-input type="email" formControlName="email" maxlength="50" disabled="true"></ion-input>
+          <ion-button color="danger" fill="outline" slot="end" (click)="actualizarEmail()">
+            Cambiar email
+          </ion-button>
+        </ion-item>
+
+        <ion-item color="danger" *ngIf="todo.controls.email.errors && todo.controls.email.touched">
+          <p>El email no es válido</p>
+        </ion-item>
+
+        <ion-item>
+          <ion-label floating>Clave:</ion-label>
+          <ion-input type="password" formControlName="clave" [disabled]="!nuevo"></ion-input>
+          <ion-button color="danger" fill="outline" slot="end" (click)="actualizarClave()">
+            Cambiar clave
+          </ion-button>
+        </ion-item>
+
+        <ion-item color="danger" *ngIf="todo.controls.clave.errors && todo.controls.clave.touched">
+          <p>La clave no es válida</p>
+        </ion-item>
+
+        <ion-card style="height: 300px;">
+          <img *ngIf="todo.controls.imagen.value" [src]="todo.controls.imagen.value" style="max-width:300px;" />
+          <ion-note color="medium" *ngIf="!todo.controls.imagen.value">Sin imagen</ion-note>
+
+          <ion-fab [horizontal]="todo.controls.imagen.value ? 'end' : 'center'" slot="fixed" vertical="bottom">
+            <ion-fab-button [color]="todo.controls.imagen.value ? 'medium' : ''" size="small" (click)="foto()">
+              <ion-icon name="image"></ion-icon>
+            </ion-fab-button>
+          </ion-fab>
+        </ion-card>
+      </form>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button color="danger" (click)="cancelar()">
+        Cancelar
+        <ion-icon name="close" slot="end"></ion-icon>
+      </ion-button>
+
+      <ion-button color="secondary" [disabled]="todo.invalid" (click)="guardar()" *ngIf="todo">
+        Guardar
+        <ion-icon name="checkmark" slot="end"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
