@@ -4,6 +4,7 @@ import { UsuarioOptions } from '../interfaces/usuario-options';
 import { UsuarioService } from './usuario.service';
 import { ServicioOptions } from '../interfaces/servicio-options';
 import { PerfilOptions } from '../interfaces/perfil-options';
+import { Empresa } from '../interfaces/empresa';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,11 @@ export class EmpresaService {
 
   constructor(private angularFirestore: AngularFirestore, private usuarioService: UsuarioService) {
     this.path = `negocios/${this.usuarioService.usuarioLogueado.idempresa}`;
+  }
+
+  empresa() {
+    const empresaDocument = this.angularFirestore.doc<Empresa>(this.path);
+    return empresaDocument.valueChanges();
   }
 
   perfiles(perfiles?: string[]) {

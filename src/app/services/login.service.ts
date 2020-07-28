@@ -11,4 +11,8 @@ export class LoginService {
   login(usuario: string, clave: string) {
     return this.angularFireAuth.signInWithEmailAndPassword(usuario, clave);
   }
+
+  logout() {
+    return this.angularFireAuth.signOut();
+  }
 }

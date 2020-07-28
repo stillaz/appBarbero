@@ -40,7 +40,13 @@ const routes: Routes = [
   },
   {
     path: 'usuarios',
-    loadChildren: () => import('./usuarios/usuarios.module').then( m => m.UsuariosPageModule)
+    loadChildren: () => import('./usuarios/usuarios.module').then( m => m.UsuariosPageModule),
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: 'empresa',
+    loadChildren: () => import('./empresa/empresa.module').then( m => m.EmpresaPageModule),
+    canActivate: [AuthGuardService]
   },
 ];
 

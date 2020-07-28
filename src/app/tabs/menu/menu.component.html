@@ -1,21 +1,41 @@
 <ion-menu menuId="opciones" contentId="opciones" side="start" *ngIf="usuario">
   <ion-header>
-    <ion-toolbar>
-      <ion-item color="light" lines="none">
-        <ion-avatar *ngIf="usuario.imagen" slot="start">
-          <img [src]="usuario.imagen">
-        </ion-avatar>
+    <ion-toolbar color="light">
+      <ion-card>
+        <ion-card-header>
+          <ion-item button lines="none" routerLink="/perfil">
+            <ion-avatar *ngIf="usuario.imagen" slot="start">
+              <img [src]="usuario.imagen">
+            </ion-avatar>
 
-        <ion-text>
-          <ion-title>
-            {{usuario.nombre}}
-          </ion-title>
+            <ion-text>
+              <ion-title>
+                {{usuario.nombre}}
+              </ion-title>
 
-          <ion-note>
-            {{usuario.perfiles | joins}}
-          </ion-note>
-        </ion-text>
-      </ion-item>
+              <ion-note>
+                {{usuario.perfiles | joins}}
+              </ion-note>
+            </ion-text>
+          </ion-item>
+        </ion-card-header>
+
+        <ion-item button color="light" lines="none" routerLink="/empresa" *ngIf="empresa">
+          <ion-avatar *ngIf="empresa.imagen" slot="start">
+            <img [src]="empresa.imagen">
+          </ion-avatar>
+
+          <ion-text>
+            <ion-title>
+              {{empresa.nombre}}
+            </ion-title>
+
+            <ion-note>
+              {{empresa.negocio}}
+            </ion-note>
+          </ion-text>
+        </ion-item>
+      </ion-card>
     </ion-toolbar>
   </ion-header>
 

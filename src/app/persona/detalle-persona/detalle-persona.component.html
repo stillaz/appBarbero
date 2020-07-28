@@ -12,6 +12,18 @@
     <form [formGroup]="formulario" *ngIf="formulario">
       <ion-list>
         <ion-item>
+          <ion-label position="floating">Tipo de documento</ion-label>
+          <ion-select interface="popover" formControlName="tipo_documento">
+            <ion-select-option value="CC">Cédula de ciudadanía</ion-select-option>
+            <ion-select-option value="CE">Cédula extranjera</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item color="danger" *ngIf="formulario.controls.tipo_documento.errors && formulario.controls.tipo_documento.touched">
+          <p>El tipo de documento válido</p>
+        </ion-item>
+
+        <ion-item>
           <ion-label position="floating">Documento</ion-label>
           <ion-input type="number" formControlName="documento" (ionChange)="persona($event)"></ion-input>
         </ion-item>

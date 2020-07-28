@@ -15,6 +15,7 @@ import { EstadosReserva } from '../enums/estados-reserva.enum';
 import moment from 'moment';
 import { UsuariosPage } from '../usuarios/usuarios.page';
 import { Subscription } from 'rxjs';
+import { CalendarioPage } from '../calendario/calendario.page';
 
 @Component({
   selector: 'app-persona',
@@ -156,6 +157,27 @@ export class PersonaPage implements OnInit {
   registro() {
     this.router.navigate(['personas/registro']);
   }
+
+  async seleccionarFecha() {
+    const modal = await this.modalController.create({
+      component: CalendarioPage,
+      componentProps: {
+        fecha: this.fecha,
+        antes: true
+      }
+    });
+
+    modal.onDidDismiss().then(res => {
+      const data = res.data;
+      if (data) {
+        this.fecha = data.fecha;
+        this.updatePersonas();
+      }
+    });
+
+    await modal.present();
+  }
+
 
   servicio(persona: Persona) {
     if (this.usuarioService.administrador) {

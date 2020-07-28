@@ -30,6 +30,7 @@ export class DetallePersonaComponent implements OnInit {
 
   ngOnInit() {
     this.formulario = this.formBuilder.group({
+      tipo_documento: ['CC', Validators.required],
       documento: ['', Validators.required],
       nombre: ['', Validators.required],
       sexo: ['', Validators.required],
@@ -70,7 +71,7 @@ export class DetallePersonaComponent implements OnInit {
       const documentoData = this.documentoService.mapDocumentoPDF417(barcodeData.text);
       this.updateFormulario(documentoData);
     }).catch(err => {
-      console.log('Error', err);
+      this.presentAlert(`Se presentó un error en la lectura del código de barras. Error: ${err}`);
     });
   }
 
@@ -86,6 +87,7 @@ export class DetallePersonaComponent implements OnInit {
     this.personaService.save(personaData).then(() => {
       this.presentToast();
       this.formulario.reset();
+      this.formulario.controls.tipo_documento.setValue('CC', { emitEvent: false });
     }).catch(err => {
       this.presentAlert(err);
     }).finally(() => {
@@ -96,7 +98,8 @@ export class DetallePersonaComponent implements OnInit {
   async persona(event: CustomEvent) {
     const data = event.detail.value;
     if (data) {
-      const personaDocument = await this.personaService.persona(data);
+      const documento = `${this.formulario.value.tipo_documento}${data}`
+      const personaDocument = await this.personaService.persona(documento);
       const persona = personaDocument.data() as Persona;
       if (persona) {
         this.formulario.patchValue(persona, {

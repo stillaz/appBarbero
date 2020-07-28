@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { MenuController } from '@ionic/angular';
+import { MenuController, Platform } from '@ionic/angular';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { UsuarioOptions } from 'src/app/interfaces/usuario-options';
+import { LoginService } from 'src/app/services/login.service';
+import { EmpresaService } from 'src/app/services/empresa.service';
+import { Empresa } from 'src/app/interfaces/empresa';
 
 @Component({
   selector: 'app-menu',
@@ -11,6 +14,7 @@ import { UsuarioOptions } from 'src/app/interfaces/usuario-options';
 })
 export class MenuComponent implements OnInit {
 
+  empresa: Empresa;
   pages = [
     { title: 'Horario', path: '/horario', icon: 'timer' },
     { title: 'Perfil', path: '/perfil', icon: 'person' },
@@ -18,16 +22,24 @@ export class MenuComponent implements OnInit {
   ];
   usuario: UsuarioOptions;
 
-  constructor(private angularFireAuth: AngularFireAuth, private menuController: MenuController, private usuarioService: UsuarioService) { }
+  constructor(
+    private empresaService: EmpresaService,
+    private loginService: LoginService,
+    private menuController: MenuController,
+    private usuarioService: UsuarioService
+  ) { }
 
   ngOnInit() {
     this.usuario = this.usuarioService.usuarioLogueado;
+    this.empresaService.empresa().subscribe(empresa => {
+      this.empresa = empresa;
+    });
   }
 
   async salir() {
     const menu = await this.menuController.getOpen();
     menu.close();
-    this.angularFireAuth.signOut();
+    this.loginService.logout();
   }
 
 }

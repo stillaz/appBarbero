@@ -257,7 +257,6 @@ export class PerfilPage implements OnInit {
     });
 
     modal.onDidDismiss().then(res => {
-      console.log(res.data)
       if (res.data && res.data.path) {
         this.todo.patchValue({ imagen: res.data.path });
       }

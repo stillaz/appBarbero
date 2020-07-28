@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { AlertController, NavController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-logueo',
@@ -19,9 +19,8 @@ export class LogueoPage implements OnInit {
 
   constructor(
     private alertController: AlertController,
-    private angularFireAuth: AngularFireAuth,
     private formBuilder: FormBuilder,
-    private navController: NavController
+    private loginService: LoginService
   ) { }
 
   ngOnInit() {
@@ -36,11 +35,8 @@ export class LogueoPage implements OnInit {
   }
 
   public async logueo() {
-    this.login = this.todo.value;
-    let result = this.angularFireAuth.signInWithEmailAndPassword(this.login.username, this.login.password);
-    result.then(() => {
-      this.navController.navigateRoot('tabs');
-    }).catch((e: any) => {
+    let result = this.loginService.login(this.todo.value.username, this.todo.value.password);
+    result.catch((e: any) => {
       let mensajeError: string;
       switch (e.code) {
         case 'auth/user-not-found':

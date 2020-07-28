@@ -54,7 +54,7 @@ export class PersonaService {
     const fecha = new Date();
     const ingresoId = moment(fecha).startOf('day').toDate().getTime();
     data.actualizacion = fecha;
-    data.id = data.documento;
+    data.id = `${data.tipo_documento}${data.documento}`;
     const personaDocument = this.angularFirestore.doc(`${this.path}/${data.id}`).ref;
     const pathIngreso = `negocios/${this.usuarioService.usuarioLogueado.idempresa}/ingresos/${ingresoId}`;
     const ingresoDocument = this.angularFirestore.doc(pathIngreso).ref;

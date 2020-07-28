@@ -1,0 +1,27 @@
+<ion-header *ngIf="empresa">
+  <ion-toolbar>
+    <ion-item>
+      <ion-avatar slot="start" *ngIf="empresa.imagen">
+        <img [src]="empresa.imagen">
+      </ion-avatar>
+      <ion-text>
+        <ion-title>{{empresa.nombre}}</ion-title>
+        <ion-note>
+          {{empresa.negocio}}
+        </ion-note>
+      </ion-text>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="empresa">
+  <ion-card>
+    <ion-item>
+      Dirección: {{empresa.direccion.direccion}}
+    </ion-item>
+
+    <ion-item>
+      Teléfono: {{empresa.telefono}}
+    </ion-item>
+  </ion-card>
+</ion-content>

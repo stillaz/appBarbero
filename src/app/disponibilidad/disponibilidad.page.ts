@@ -52,7 +52,6 @@ export class DisponibilidadPage implements OnInit {
   }
 
   eliminar(noDisponible: string) {
-    console.log(noDisponible);
     this.disponibilidadService.eliminar(this.usuario.id, noDisponible);
   }
 

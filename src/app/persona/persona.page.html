@@ -33,7 +33,7 @@
           Última visita: {{persona.actualizacion.toDate()|fecha}}.
         </ion-note>
 
-        <ion-note *ngIf="persona.servicios && !opcion == 'ingreso'">
+        <ion-note *ngIf="!(opcion === 'ingreso') && persona.servicios">
           Servicios: {{persona.servicios}}
         </ion-note>
       </ion-text>
