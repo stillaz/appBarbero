@@ -1,7 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { UsuarioOptions } from 'src/app/interfaces/usuario-options';
 import moment from 'moment';
-import { UsuarioService } from 'src/app/services/usuario.service';
 import { ReservaService } from 'src/app/services/reserva.service';
 import { TotalOptions } from 'src/app/interfaces/total-options';
 import { ModalController, ActionSheetController, LoadingController } from '@ionic/angular';
@@ -9,6 +8,7 @@ import { CalendarioPage } from '../calendario/calendario.page';
 import { Router, NavigationEnd } from '@angular/router';
 import { Reporte } from '../enums/reporte.enum';
 import { EmpresaService } from '../services/empresa.service';
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-reporte',
@@ -30,10 +30,10 @@ export class ReportePage implements AfterViewInit, OnInit {
     private actionSheetController: ActionSheetController,
     private empresaService: EmpresaService,
     private loadingController: LoadingController,
+    private loginService: LoginService,
     private modalController: ModalController,
     private reservaService: ReservaService,
     private router: Router,
-    private usuarioService: UsuarioService
   ) { }
 
   ngOnInit() {
@@ -274,7 +274,7 @@ export class ReportePage implements AfterViewInit, OnInit {
   }
 
   private updateUsuario() {
-    const usuario = !this.usuarioService.administrador ? this.usuarioService.usuarioLogueado.id : null;
+    const usuario = !this.loginService.administrador ? this.loginService.usuario.id : null;
     this.updateUsuarios(usuario);
   }
 

@@ -16,6 +16,7 @@ import { NotificacionService } from 'src/app/services/notificacion.service';
 import { EstadosNotificacion } from 'src/app/enums/estados-notificacion.enum';
 import { DisponibilidadService } from 'src/app/services/disponibilidad.service';
 import { UsuariosPage } from '../usuarios/usuarios.page';
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-agenda',
@@ -41,6 +42,7 @@ export class AgendaPage implements OnInit {
     private alertController: AlertController,
     private disponibilidadService: DisponibilidadService,
     private loadingController: LoadingController,
+    private loginService: LoginService,
     private modalController: ModalController,
     private navController: NavController,
     private notificacionService: NotificacionService,
@@ -55,7 +57,7 @@ export class AgendaPage implements OnInit {
     this.platform.backButton.subscribe(() => {
       navigator['app'].exitApp();
     });
-    this.updateHorarioUsuario(this.usuarioService.currentUser.uid);
+    this.updateHorarioUsuario(this.loginService.currentUser.uid);
     interval(60000).subscribe(() => {
       this.fecha = new Date();
       this.updateHorario();
@@ -175,7 +177,7 @@ export class AgendaPage implements OnInit {
   }
 
   reservar(reserva: ReservaOptions) {
-    if (this.usuarioService.administrador) {
+    if (this.loginService.administrador) {
       this.usuarios(reserva);
     } else {
       this.verificarDataUsuario().then(() => {

@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { MenuController, Platform } from '@ionic/angular';
-import { UsuarioService } from 'src/app/services/usuario.service';
+import { MenuController } from '@ionic/angular';
 import { UsuarioOptions } from 'src/app/interfaces/usuario-options';
 import { LoginService } from 'src/app/services/login.service';
 import { EmpresaService } from 'src/app/services/empresa.service';
@@ -26,11 +24,10 @@ export class MenuComponent implements OnInit {
     private empresaService: EmpresaService,
     private loginService: LoginService,
     private menuController: MenuController,
-    private usuarioService: UsuarioService
   ) { }
 
   ngOnInit() {
-    this.usuario = this.usuarioService.usuarioLogueado;
+    this.usuario = this.loginService.usuario;
     this.empresaService.empresa().subscribe(empresa => {
       this.empresa = empresa;
     });

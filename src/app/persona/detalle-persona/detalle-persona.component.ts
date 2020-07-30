@@ -35,7 +35,7 @@ export class DetallePersonaComponent implements OnInit {
       nombre: ['', Validators.required],
       sexo: ['', Validators.required],
       fecha_nacimiento: ['', Validators.required],
-      rh: ['', Validators.required],
+      rh: [''],
       telefono: ['', Validators.required],
       direccion: ['', Validators.required]
     });

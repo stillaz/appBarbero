@@ -4,6 +4,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 import { UsuarioOptions } from 'src/app/interfaces/usuario-options';
 import { DetalleNotificacionComponent } from './detalle-notificacion/detalle-notificacion.component';
 import { ModalController } from '@ionic/angular';
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-notificacion',
@@ -16,13 +17,14 @@ export class NotificacionPage implements OnInit {
   public notificaciones: any[];
 
   constructor(
+    private loginService: LoginService,
     private modalController: ModalController,
     private notificacionService: NotificacionService,
     private usuarioService: UsuarioService
   ) { }
 
   ngOnInit() {
-    this.updateUsuario(this.usuarioService.currentUser.uid);
+    this.updateUsuario(this.loginService.currentUser.uid);
   }
 
   public eliminar(notificacion: string) {

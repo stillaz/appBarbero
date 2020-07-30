@@ -7,6 +7,7 @@ import { ReservaOptions } from 'src/app/interfaces/reserva-options';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { IonSelect } from '@ionic/angular';
 import { EstadosReserva } from 'src/app/enums/estados-reserva.enum';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-detalle-reporte',
@@ -28,6 +29,7 @@ export class DetalleReporteComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private loginService: LoginService,
     private reservaService: ReservaService,
     private usuarioService: UsuarioService
   ) { }
@@ -39,7 +41,7 @@ export class DetalleReporteComponent implements OnInit {
       if (usuario) {
         this.updateUsuarioReservas(usuario);
       } else {
-        this.updateUsuarioReservas(this.usuarioService.currentUser.uid);
+        this.updateUsuarioReservas(this.loginService.currentUser.uid);
       }
     });
   }

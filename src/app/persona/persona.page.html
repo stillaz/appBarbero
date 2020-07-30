@@ -32,15 +32,16 @@
         <ion-note>
           Última visita: {{persona.actualizacion.toDate()|fecha}}.
         </ion-note>
-
-        <ion-note *ngIf="!(opcion === 'ingreso') && persona.servicios">
-          Servicios: {{persona.servicios}}
-        </ion-note>
       </ion-text>
 
       <ion-button slot="end" (click)="servicio(persona)" *ngIf="opcion === 'ahora'">
         Servicio
       </ion-button>
+
+      <ion-note slot="end" *ngIf="!opcion">
+        <ion-text color="success" *ngIf="persona.servicios"><strong>Servicios: {{persona.servicios}}</strong></ion-text>
+        <ion-text *ngIf="!persona.servicios">Sin servicio</ion-text>
+      </ion-note>
     </ion-item>
   </ion-list>
 

@@ -31,7 +31,7 @@ export class PerfilPage implements OnInit {
 
   ngOnInit() {
     this.mobile = this.platform.is('mobile');
-    this.usuario = this.usuarioServicio.usuarioLogueado;
+    this.usuario = this.loginService.usuario;
     this.form();
   }
 
@@ -163,7 +163,7 @@ export class PerfilPage implements OnInit {
           } else {
             this.alertCierreSesionClave();
             const clave = data.clave1;
-            this.usuarioServicio.saveClave(clave);
+            this.loginService.saveClave(clave);
           }
         }
       }]
@@ -215,7 +215,7 @@ export class PerfilPage implements OnInit {
           this.alertCierreSesionEmail();
           if (data && data.email) {
             const email = data.email;
-            this.usuarioServicio.saveCorreo(email, this.usuario.id);
+            this.loginService.saveCorreo(email, this.usuario.id);
           } else {
             this.alertCorreoInvalido();
           }

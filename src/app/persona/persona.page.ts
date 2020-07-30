@@ -16,6 +16,7 @@ import moment from 'moment';
 import { UsuariosPage } from '../usuarios/usuarios.page';
 import { Subscription } from 'rxjs';
 import { CalendarioPage } from '../calendario/calendario.page';
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-persona',
@@ -34,6 +35,7 @@ export class PersonaPage implements OnInit {
   constructor(
     private alertController: AlertController,
     private loadingController: LoadingController,
+    private loginService: LoginService,
     private modalController: ModalController,
     private personaService: PersonaService,
     private router: Router,
@@ -48,7 +50,7 @@ export class PersonaPage implements OnInit {
       this.ventana = modal && true;
     });
 
-    const usuario = this.usuarioService.usuarioLogueado;
+    const usuario = this.loginService.usuario;
     this.updatePersonas();
   }
 
@@ -180,12 +182,12 @@ export class PersonaPage implements OnInit {
 
 
   servicio(persona: Persona) {
-    if (this.usuarioService.administrador) {
+    if (this.loginService.administrador) {
       this.usuarios(persona);
     } else {
-      this.updatePendientes(this.usuarioService.usuarioLogueado.id);
-      this.verificarDataUsuario(this.usuarioService.usuarioLogueado).then(() => {
-        this.presentServicios(persona, this.usuarioService.usuarioLogueado);
+      this.updatePendientes(this.loginService.usuario.id);
+      this.verificarDataUsuario(this.loginService.usuario).then(() => {
+        this.presentServicios(persona, this.loginService.usuario);
       }).catch(err => {
         this.presentAlert(err[0], err[1]);
       });

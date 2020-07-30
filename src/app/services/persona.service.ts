@@ -3,20 +3,21 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import moment from 'moment';
 import { Persona } from '../interfaces/persona';
 import { UsuarioService } from './usuario.service';
+import { LoginService } from './login.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PersonaService {
 
-  private path = `negocios/${this.usuarioService.usuarioLogueado.idempresa}/personas`;
+  private path = `negocios/${this.loginService.usuario.idempresa}/personas`;
 
-  constructor(private angularFirestore: AngularFirestore, private usuarioService: UsuarioService) { }
+  constructor(private angularFirestore: AngularFirestore, private loginService: LoginService, private usuarioService: UsuarioService) { }
 
   ingreso(fecha: Date) {
     const id = moment(fecha).startOf('day').toDate().getTime();
     const ingresoCollection = this.angularFirestore
-      .collection<Persona>(`negocios/${this.usuarioService.usuarioLogueado.idempresa}/ingresos/${id}/personas`,
+      .collection<Persona>(`negocios/${this.loginService.usuario.idempresa}/ingresos/${id}/personas`,
         ref => ref.orderBy('nombre'));
     return ingresoCollection.valueChanges();
   }
@@ -56,7 +57,7 @@ export class PersonaService {
     data.actualizacion = fecha;
     data.id = `${data.tipo_documento}${data.documento}`;
     const personaDocument = this.angularFirestore.doc(`${this.path}/${data.id}`).ref;
-    const pathIngreso = `negocios/${this.usuarioService.usuarioLogueado.idempresa}/ingresos/${ingresoId}`;
+    const pathIngreso = `negocios/${this.loginService.usuario.idempresa}/ingresos/${ingresoId}`;
     const ingresoDocument = this.angularFirestore.doc(pathIngreso).ref;
     const ingresoPersonaId = this.angularFirestore.createId();
     const ingresoPersonaDocument = this.angularFirestore.doc(`${pathIngreso}/personas/${ingresoPersonaId}`).ref;

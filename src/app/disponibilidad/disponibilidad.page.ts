@@ -7,6 +7,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 import { DetalleNoDisponibleComponent } from './detalle-no-disponible/detalle-no-disponible.component';
 import { DisponibilidadService } from 'src/app/services/disponibilidad.service';
 import moment from 'moment';
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-disponibilidad',
@@ -34,13 +35,14 @@ export class DisponibilidadPage implements OnInit {
     private alertController: AlertController,
     private disponibilidadService: DisponibilidadService,
     private formBuilder: FormBuilder,
+    private loginService: LoginService,
     private modalController: ModalController,
     private navController: NavController,
     private usuarioService: UsuarioService
   ) { }
 
   ngOnInit() {
-    this.updateUsuario(this.usuarioService.currentUser.uid);
+    this.updateUsuario(this.loginService.currentUser.uid);
   }
 
   cancelar() {

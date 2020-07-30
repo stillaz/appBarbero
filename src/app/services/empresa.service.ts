@@ -5,6 +5,7 @@ import { UsuarioService } from './usuario.service';
 import { ServicioOptions } from '../interfaces/servicio-options';
 import { PerfilOptions } from '../interfaces/perfil-options';
 import { Empresa } from '../interfaces/empresa';
+import { LoginService } from './login.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,8 @@ export class EmpresaService {
 
   private path: string;
 
-  constructor(private angularFirestore: AngularFirestore, private usuarioService: UsuarioService) {
-    this.path = `negocios/${this.usuarioService.usuarioLogueado.idempresa}`;
+  constructor(private angularFirestore: AngularFirestore, private loginService: LoginService, private usuarioService: UsuarioService) {
+    this.path = `negocios/${this.loginService.usuario.idempresa}`;
   }
 
   empresa() {
@@ -37,7 +38,7 @@ export class EmpresaService {
   usuarios() {
     const usuarioCollection = this.angularFirestore
       .collection<UsuarioOptions>('usuarios', ref => {
-        return ref.where('idempresa', '==', this.usuarioService.usuarioLogueado.idempresa).orderBy('nombre');
+        return ref.where('idempresa', '==', this.loginService.usuario.idempresa).orderBy('nombre');
       });
     return usuarioCollection.valueChanges();
   }

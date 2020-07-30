@@ -27,10 +27,9 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding-end ion-padding-start">
+<ion-content>
   <ion-list *ngIf="!horarios">
     <ion-item-group>
-
       <ion-item-divider sticky color="light">
         <ion-label>
           <ion-skeleton-text animated></ion-skeleton-text>
@@ -90,9 +89,8 @@
     </ion-item-group>
   </ion-list>
 
-  <ion-list *ngIf="horarios">
+  <ion-list class="ion-no-padding" *ngIf="horarios">
     <ion-item-group *ngFor="let horario of horarios | disponibilidadFilter: terms">
-
       <ion-item-divider sticky color="light">
         <ion-label>
           {{horario.grupo}}

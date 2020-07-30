@@ -11,6 +11,7 @@ import { UsuarioService } from 'src/app/services/usuario.service';
 import { UsuarioOptions } from 'src/app/interfaces/usuario-options';
 import { ReservaService } from 'src/app/services/reserva.service';
 import { NotificacionService } from 'src/app/services/notificacion.service';
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-pendiente',
@@ -25,6 +26,7 @@ export class PendientePage implements OnInit {
   constructor(
     private alertController: AlertController,
     private loadingController: LoadingController,
+    private loginService: LoginService,
     private navController: NavController,
     private modalController: ModalController,
     private notificacionService: NotificacionService,
@@ -34,7 +36,7 @@ export class PendientePage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.updatePendientes(this.usuarioService.currentUser.uid);
+    this.updatePendientes(this.loginService.currentUser.uid);
   }
 
   private async actualizarData(reserva: ReservaOptions) {
