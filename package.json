@@ -30,7 +30,7 @@
     "cordova-res": "^0.15.1",
     "firebase": "^7.16.1",
     "ionic4-date-picker": "^0.1.0",
-    "moment": "^2.27.0",
+    "moment": "^2.29.4",
     "phonegap-plugin-barcodescanner": "^8.1.0",
     "rxjs": "~6.5.1",
     "tslib": "^1.10.0",
